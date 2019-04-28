@@ -120,7 +120,7 @@ class ComponentPlugin implements Plugin<Project> {
       def defExt = androidExt[Const.EXT_DCONFIG]
       if (defExt != null) {
         defExt.applicationId = applicationId
-        if (!config.appendApplicationIdSuffix) {
+        if (config.appendApplicationIdSuffix) {
           defExt.applicationIdSuffix = config.applicationIdSuffix
         }
 

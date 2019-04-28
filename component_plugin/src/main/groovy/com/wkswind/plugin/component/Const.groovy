@@ -2,7 +2,7 @@ package com.wkswind.plugin.component
 
 class Const {
   public static final String FILE_CONFIG = "cp.config.properties"
-  static final String PREFIX = "cp."
+  static final String PREFIX = "cp_"
 //  static final String CONFIG_NAME = "dynamicComponent";
   static final String TASK_GROUP = "cp"
   static final String TASK_NAME_SHOW_CONFIG = TASK_GROUP+"ShowConfig"
