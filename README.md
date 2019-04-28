@@ -15,3 +15,8 @@ component_plugin未上传至maven或者jcenter，所以第一次使用需要在�
 
 #### 插件说明
 命令行调用./gradlew :component_test1:cpHelpConfig查看帮助
+
+#### Todo 
+
+- [ ] 插件中动态配置sourceSet
+- [ ] 插件中动态配置resourcePrefix
