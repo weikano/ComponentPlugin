@@ -1,5 +1,4 @@
-apply plugin: 'com.android.application'
-
+apply plugin:"component_plugin"
 android {
   compileSdkVersion 28
 

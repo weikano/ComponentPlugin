@@ -1,11 +1,11 @@
-apply plugin: 'com.android.application'
+apply plugin:"component_plugin"
 
 android {
   compileSdkVersion 28
 
 
   defaultConfig {
-    applicationId "com.wkswind.plugin.demo.test2"
+//    applicationId "com.wkswind.plugin.demo.test2"
     minSdkVersion 19
     targetSdkVersion 28
     versionCode 1

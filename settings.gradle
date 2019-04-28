@@ -1,0 +1,1 @@
+include ':app', ':component_plugin' , ':component_test1', ':component_test2'
