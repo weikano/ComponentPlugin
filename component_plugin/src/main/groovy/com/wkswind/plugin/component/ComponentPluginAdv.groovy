@@ -126,8 +126,7 @@ class ComponentPluginAdv implements Plugin<Project> {
   }
 
   private void componentAsApp(Project project, ComponentExtension it, String baseApplicationId, boolean kotlin, boolean kapt) {
-    def thiz = findProjectByComponentExtension(project, it)
-    assertProjectNotNull(thiz, it)
+    def thiz = findProjectByComponentExtension(project, it.name)
     thiz.plugins.removeIf(new Predicate<Plugin>() {
       @Override
       boolean test(Plugin e) {
@@ -152,8 +151,7 @@ class ComponentPluginAdv implements Plugin<Project> {
    * @param kapt
    */
   private void componentAsLibrary(Project project, ComponentExtension it, boolean kotlin, boolean kapt) {
-    def thiz = findProjectByComponentExtension(project,it)
-    assertProjectNotNull(thiz, it)
+    def thiz = findProjectByComponentExtension(project,it.name)
     thiz.plugins.removeIf(new Predicate<Plugin>() {
       @Override
       boolean test(Plugin e) {
@@ -180,22 +178,23 @@ class ComponentPluginAdv implements Plugin<Project> {
 
   private void handleApt(AnnotationProcessorOptions options, String componentName) {
     aptArgs(componentName).each {
-      options.argument("\"${it.key}\"", "\"${it.value}\"")
+      options.argument(it.key, it.value)
     }
   }
 
-  private void assertProjectNotNull(Project project, ComponentExtension it) {
+  private void assertProjectNotNull(Project project, String it) {
     if(project == null) {
-      throw new IllegalArgumentException(">>>>>component_plugin_adv:<<<<<\\nCannot find module ${it.name}")
+      throw new IllegalArgumentException(">>>>>component_plugin_adv:<<<<<\\nCannot find module ${it}")
     }
   }
 
-  private Project findProjectByComponentExtension(Project project, ComponentExtension ext) {
-    String name = ext.name.startsWith(":") ?: ":" + ext.name
+  private Project findProjectByComponentExtension(Project project, String ext) {
+    String name = ext.startsWith(":") ?: ":" + ext
     Project target = project.project(name)
     if(target == null) {
       target = project.rootProject.project(name)
     }
+    assertProjectNotNull(target, ext)
     return target;
   }
 
@@ -263,8 +262,7 @@ class ComponentPluginAdv implements Plugin<Project> {
       return
     }
     dependencies.each {
-      Project dep = findProjectByComponentExtension(project, it)
-      assertProjectNotNull(dep, it)
+      Project dep = findProjectByComponentExtension(project, it.name)
       project.dependencies.add(it.scope, dep)
     }
 

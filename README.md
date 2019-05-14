@@ -58,11 +58,11 @@ dependencies {
 然后在对应的MODULE的application中使用ComponentInfo注解
 
 ```kotlin
-@ComponentInfo(icon = R.mipmap.ic_launcher, title=R.string.app_name, entry="/module1/entry")class ModuleApp : Application(), ComponentBehavior {
+@ComponentInfo class ModuleApp : Application(), ComponentBehavior {
   override fun injectAsApp(app:Application) {
     //xxx
   }
-  override fun injectAsComponent(app:Application) {
+  override fun provideInfo(app:Application) : ComponentMeta {
     //xxx
   }
 }
@@ -75,7 +75,7 @@ dependencies {
 ```kotlin
 class MainApp : Application() {
   fun onCreate() {
-    ComponentManager.loadComponentManual(new ComponentRegister$$module1())
+    ComponentManager.loadComponentBehaviorClasses(new ComponentRegister$$module1())
     ComponentManager.init(this)
     //想要获得所有接入的组件
     ComponentManager.getAllComponents();

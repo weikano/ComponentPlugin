@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.CLASS)
 public @interface ComponentInfo {
-  int title();
-  int icon();
-  String entry();
+//  int title();
+//  int icon();
+//  String entry();
 }

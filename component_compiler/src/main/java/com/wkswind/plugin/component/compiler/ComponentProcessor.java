@@ -85,14 +85,15 @@ public class ComponentProcessor extends AbstractProcessor {
         .returns(void.class)
         .addModifiers(Modifier.PUBLIC)
         .addAnnotation(Override.class)
-        .addParameter(new TypeToken<List<ComponentMeta>>(){}.getType(), "metas");
+        .addParameter(new TypeToken<List<Class>>(){}.getType(), "metas");
       if (CollectionUtils.isNotEmpty(elements)) {
         logger.info(">>> Found ComponentInfo, size is " + elements.size() + "<<<");
         for (Element element : elements) {
           logger.info(">>> " + element + " <<<");
           ComponentInfo info = element.getAnnotation(ComponentInfo.class);
           if (info != null) {
-            methodBuilder.addStatement("metas.add($T.build($L,$L,$S,$L.class))", ComponentMeta.class, info.title(), info.icon(), info.entry(), element.toString());
+            methodBuilder.addStatement("metas.add($L.class)", element.toString());
+//            methodBuilder.addStatement("metas.add($T.build($L,$L,$S,$L.class))", ComponentMeta.class, info.title(), info.icon(), info.entry(), element.toString());
           }
         }
       }
