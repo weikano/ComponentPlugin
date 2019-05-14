@@ -134,4 +134,5 @@ cpHostConfig {
 #### 待完成
 
 - [ ] 组件之间的相互依赖
+- [ ] 参考ARouter的init方法，在dex中查找对应的Component信息进行注册
 - [ ] 参考ARouter的register插件，在transform时动态修改class文件来注册ComponentRegister
