@@ -1,1 +1,1 @@
-include ':app', ':component_plugin' , ':component_test1', ':component_test2'
+include ':component_plugin', ':component_annotation', ':component_api', ':component_compiler'

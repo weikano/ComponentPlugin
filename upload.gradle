@@ -1,0 +1,14 @@
+apply plugin : 'maven'
+
+def versionName = "1.0.1"
+group "com.wkswind.plugin"
+version versionName
+
+
+uploadArchives {
+  repositories {
+    mavenDeployer {
+      repository(url: mavenLocal().url)
+    }
+  }
+}

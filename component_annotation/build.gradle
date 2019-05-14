@@ -1,0 +1,24 @@
+apply plugin: 'java-library'
+
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+sourceCompatibility = "7"
+targetCompatibility = "7"
+
+//apply from :"../upload.gradle"
+
+//apply plugin: "maven"
+//def versionName = "1.0.0"
+//group "com.wkswind.plugin"
+//version versionName
+//
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            repository(url: mavenLocal().url)
+//        }
+//    }
+//}
