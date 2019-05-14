@@ -105,19 +105,22 @@ cpHostConfig {
   ignores = [
     ":library1", ":library2" //不参与组件化的module
   ]
-  component_1 {//component_1为当前projectA目录下的MODULE的名字，不能写错，写错会找不到
-    componentName = "test1" //设置别名，用在applicationIdSuffix和resourcePrefx中，也用在ARouter和component_compiler中的kapt和annotationProcessorOptions的参数
-    runAsApp = false //如果为true，那么就是单独的app运行，false就为组件，并且宿主程序会自动集成
+  components {
+    component_1 {//component_1为当前projectA目录下的MODULE的名字，不能写错，写错会找不到
+      componentName = "test1" //设置别名，用在applicationIdSuffix和resourcePrefx中，也用在ARouter和component_compiler中的kapt和annotationProcessorOptions的参数
+      runAsApp = false //如果为true，那么就是单独的app运行，false就为组件，并且宿主程序会自动集成
+    }
+    component_2 {
+      componentName = "test2"
+      runAsApp = false
+    }
+    component_3 {
+      componentName = "test3"
+      runAsApp = true
+    }
+    ....
   }
-  component_2 {
-    componentName = "test2" 
-    runAsApp = false
-  }
-  component_3 {
-    componentName = "test3" 
-    runAsApp = true
-  }
-  ....
+
 }
 ```
 
