@@ -4,54 +4,85 @@ import android.app.Application;
 
 import com.wkswind.plugin.component.annotation.ComponentLoader;
 import com.wkswind.plugin.component.annotation.ComponentMeta;
+import com.wkswind.plugin.component.api.utils.ClassUtils;
+import com.wkswind.plugin.component.api.utils.PackageUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+
+import static com.wkswind.plugin.component.api.utils.Consts.COMPONENT_GEN_PACKAGENAME;
 
 public final class ComponentManager {
-  private static List<ComponentMeta> allComponents = new ArrayList<>();
-  private static List<Class> behaviorClasses = new ArrayList<>();
-  private static boolean manual = false;
+  private static Set<ComponentMeta> allComponents = new HashSet<>();
+  private static Set<Class> behaviorClasses = new HashSet<>();
+  private static boolean registerByPlugin = false;
+
+  private static boolean debuggable = false;
+  public static void openDebug() {
+    debuggable = true;
+  }
+
   public static void init(Application app) {
-    loadComponentByTransformer();
-    for (Class clz : behaviorClasses) {
-      try {
-        if (clz == ComponentBehavior.class) {
+
+    try {
+      if (!registerByPlugin) {
+        Set<String> gens;
+        if (debuggable || PackageUtils.isNewVersion(app)) {
+          gens = ClassUtils.getFileNameByPackageName(app, COMPONENT_GEN_PACKAGENAME);
+          if (!gens.isEmpty()) {
+            PackageUtils.cacheGens(app,gens);
+          }
+          PackageUtils.updateVersion(app);
+        } else {
+          gens = PackageUtils.gensFromSp(app);
+        }
+
+        for (String gen : gens) {
+          Class clz = Class.forName(gen);
+          if(ComponentLoader.class.isAssignableFrom(clz)) {
+            ComponentLoader loader = (ComponentLoader) clz.newInstance();
+            loader.loadComponent(behaviorClasses);
+          }
+        }
+      }
+      for (Class clz : behaviorClasses) {
+        if(ComponentBehavior.class.isAssignableFrom(clz)) {
           ComponentBehavior behavior = (ComponentBehavior) clz.newInstance();
           allComponents.add(behavior.provideInfo());
           behavior.injectAsComponent(app);
         }
-      } catch (IllegalAccessException e) {
-        e.printStackTrace();
-      } catch (InstantiationException e) {
-        e.printStackTrace();
       }
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 
-  /**
-   * 手动添加ComponentMeta
-   * 调用该方法后不会调用{@link #loadComponentByTransformer()}
-   * 必须在init方法之前调用
-   * @param loaders 自动生成的ComponentRegister$$xx
-   */
-  public static void loadComponentBehaviorClasses(ComponentLoader... loaders) {
-    for (ComponentLoader loader : loaders) {
-      loader.loadComponent(behaviorClasses);
-    }
-//    Collections.addAll(behaviorClasses, classes);
-    manual = true;
+  private static void loadByPlugin() {
+    registerByPlugin = false;
   }
 
-  private static void loadComponentByTransformer() {
-    if(manual) {
-      return;
-    }
-    //auto-generate by transform
-  }
+//  /**
+//   * 手动添加ComponentMeta
+//   * 调用该方法后不会调用{@link #loadComponentByTransformer()}
+//   * 必须在init方法之前调用
+//   * @param loaders 自动生成的ComponentRegister$$xx
+//   */
+//  public static void loadComponentBehaviorClasses(ComponentLoader... loaders) {
+//    for (ComponentLoader loader : loaders) {
+//      loader.loadComponent(behaviorClasses);
+//    }
+////    Collections.addAll(behaviorClasses, classes);
+//    registerByPlugin = true;
+//  }
+//
+//  private static void loadComponentByTransformer() {
+//    if(registerByPlugin) {
+//      return;
+//    }
+//    //auto-generate by transform
+//  }
 
-  public List<ComponentMeta> getAllComponents() {
+  public Set<ComponentMeta> getAllComponents() {
     return allComponents;
   }
 }

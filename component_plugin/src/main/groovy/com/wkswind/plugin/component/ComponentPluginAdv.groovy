@@ -101,14 +101,17 @@ class ComponentPluginAdv implements Plugin<Project> {
    */
   private void configureHostApp(Project project, ComponentHostExtension ext, boolean kotlin, boolean kapt, Set<ComponentExtension> components) {
     Project host = project.project(ext.hostModuleName)
-    host.plugins.removeIf(new Predicate<Plugin>() {
-      @Override
-      boolean test(Plugin e) {
-        return e.class == LibraryPlugin
-      }
-    })
-    AppPlugin plugin = host.plugins.apply(AppPlugin)
-    plugin.extension.defaultConfig.applicationId = ext.baseApplicationId
+//    AppPlugin plugin = host.plugins.findPlugin(AppPlugin)
+//    host.plugins.removeIf(new Predicate<Plugin>() {
+//      @Override
+//      boolean test(Plugin e) {
+//        return e.class == LibraryPlugin
+//      }
+//    })
+//    AppPlugin plugin = host.plugins.apply(AppPlugin)
+//    plugin.extension.defaultConfig.applicationId = ext.baseApplicationId
+    applyPlugin(host, AppPlugin)
+    AppPlugin plugin = host.plugins.findPlugin(AppPlugin)
     handleAppAnnotationProcessor(plugin, ext.hostModuleName)
     handleKotlinPlugin(host, ext.hostModuleName, kotlin, kapt)
     List<ComponentDependency> dependencies = Lists.newArrayList()
@@ -122,7 +125,7 @@ class ComponentPluginAdv implements Plugin<Project> {
       dependencies.add(dependency)
     }
     makeDependencies(host, dependencies)
-    plugin.extension.registerTransform(new ComponentTransform(project))
+//    plugin.extension.registerTransform(new ComponentTransform(project))
   }
 
   private void componentAsApp(Project project, ComponentExtension it, String baseApplicationId, boolean kotlin, boolean kapt) {
