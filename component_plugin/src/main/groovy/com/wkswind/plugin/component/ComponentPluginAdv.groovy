@@ -143,7 +143,7 @@ class ComponentPluginAdv implements Plugin<Project> {
     handleAppAnnotationProcessor(plugin, it.componentName)
     handleKotlinPlugin(thiz, it.componentName, kotlin, kapt)
     makeDependencies(thiz, it.dependencies)
-    plugin.extension.registerTransform(new ComponentTransform(project))
+//    plugin.extension.registerTransform(new ComponentTransform(project))
   }
   /**
    * 修改resourcePrefx 为 _componentName
