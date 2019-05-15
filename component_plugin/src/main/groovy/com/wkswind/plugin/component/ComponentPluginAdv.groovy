@@ -4,6 +4,7 @@ import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.LibraryPlugin
 import com.android.build.gradle.api.AndroidSourceSet
 import com.android.build.gradle.internal.dsl.AnnotationProcessorOptions
+import com.android.utils.FileUtils
 import com.google.common.collect.Lists
 import kotlin.Unit
 import kotlin.jvm.functions.Function1
@@ -241,9 +242,19 @@ class ComponentPluginAdv implements Plugin<Project> {
    * @param sourceSets
    */
   private void applyManifestChange(Project project, NamedDomainObjectContainer<AndroidSourceSet> sourceSets) {
+    File target = project.file("src/${COMPONENT}/AndroidManifest.xml")
+
+    def prev = sourceSets.find {
+      it.name == "main"
+    }.manifest.srcFile
+    if(!target.exists()) {
+      target.parentFile.mkdirs()
+      FileUtils.copyFile(prev, target)
+    }
+
     sourceSets.find {
       it.name == "main"
-    }.manifest.srcFile(project.file("src/${COMPONENT}/AndroidManifest.xml"))
+    }.manifest.srcFile(target)
   }
   /**
    * 添加插件,如果有了就不管

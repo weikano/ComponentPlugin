@@ -75,7 +75,6 @@ dependencies {
 ```kotlin
 class MainApp : Application() {
   fun onCreate() {
-    ComponentManager.loadComponentBehaviorClasses(new ComponentRegister$$module1())
     ComponentManager.init(this)
     //想要获得所有接入的组件
     ComponentManager.getAllComponents();
@@ -130,6 +129,7 @@ cpHostConfig {
 > 2. 将component_3设置为com.android.application，applicationId=“com.aaa.bbb”, applicationIdSuffix = “.test3”
 > 3. 将app作为宿主app，自动依赖component_test1, component_test2
 > 4. 设置ARouter和component_compiler的annotationProcessor参数，对应的value都是componentName
+> 5. 将component对应的MODULE中的src/main/AndroidManifest.xml复制一份到src/component/AndroidManifest.xml中
 
 #### 待完成
 
