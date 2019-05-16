@@ -82,7 +82,7 @@ public final class ComponentManager {
 //    //auto-generate by transform
 //  }
 
-  public Set<ComponentMeta> getAllComponents() {
+  public static Set<ComponentMeta> getAllComponents() {
     return allComponents;
   }
 }
