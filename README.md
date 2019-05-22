@@ -101,9 +101,6 @@ cpHostConfig {
   kotlin = true //默认为false
   kapt = true //默认为false
   baseApplicationId = "com.aaa.bbb" //作为宿主程序的applicationId。当组件作为单独app运行时的applicationId，applicationIdSuffix由componentName设定
-  ignores = [
-    ":library1", ":library2" //不参与组件化的module
-  ]
   components {
     component_1 {//component_1为当前projectA目录下的MODULE的名字，不能写错，写错会找不到
       componentName = "test1" //设置别名，用在applicationIdSuffix和resourcePrefx中，也用在ARouter和component_compiler中的kapt和annotationProcessorOptions的参数
@@ -133,6 +130,5 @@ cpHostConfig {
 
 #### 待完成
 
-- [ ] 组件之间的相互依赖
-- [ ] 参考ARouter的init方法，在dex中查找对应的Component信息进行注册
+- [x] 参考ARouter的init方法，在dex中查找对应的Component信息进行注册
 - [ ] 参考ARouter的register插件，在transform时动态修改class文件来注册ComponentRegister
